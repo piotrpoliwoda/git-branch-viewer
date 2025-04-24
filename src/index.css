@@ -1,0 +1,443 @@
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #1a1a2e;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-top: 8px solid #e2e8f0;
+}
+
+.header-top {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+  color: #16213e;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+  color: #16213e;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+}
+
+.repo-history {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.repo-history-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.repo-history-item {
+  background-color: #f8f9fa;
+  color: #5f6c7b;
+  border: 1px solid #e2e8f0;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  text-align: left;
+}
+
+.repo-history-item:hover {
+  background-color: #ebf5ff;
+  color: #3a86ff;
+  border-color: rgba(58, 134, 255, 0.3);
+}
+
+.repo-history-item.active {
+  background-color: #ebf5ff;
+  color: #3a86ff;
+  border-color: #3a86ff;
+  font-weight: 600;
+}
+
+.fetch-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.fetch-button:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+}
+
+.fetch-button:disabled {
+  background-color: #c9d6df;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+.fetch-button.fetching {
+  position: relative;
+  padding-right: 35px;
+}
+
+.fetch-button.fetching:after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -6px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.fetch-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  border-left: 3px solid #4caf50;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.select-button {
+  background-color: #3a86ff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(58, 134, 255, 0.2);
+}
+
+.select-button:hover {
+  background-color: #2667cc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(58, 134, 255, 0.3);
+}
+
+.select-button:disabled {
+  background-color: #c9d6df;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+.repo-path {
+  margin-top: 15px;
+  font-size: 14px;
+  word-break: break-all;
+  color: #5f6c7b;
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border-left: 3px solid #3a86ff;
+}
+
+.error-container {
+  margin-bottom: 25px;
+}
+
+.error-message {
+  background-color: #fff5f5;
+  color: #e63946;
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.1);
+  border-left: 4px solid #e63946;
+}
+
+.error-trace {
+  background-color: #1a1a2e;
+  color: #f8f9fa;
+  padding: 15px;
+  border-radius: 0 0 8px 8px;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #e63946;
+}
+
+.error-trace pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #e63946;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: transform 0.2s ease;
+}
+
+.close-button:hover {
+  transform: scale(1.2);
+}
+
+.loading {
+  text-align: center;
+  padding: 30px;
+  color: #5f6c7b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
+
+.loading:after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  border: 2px solid #3a86ff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.branches-container {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  border: 1px solid rgba(230, 230, 230, 0.7);
+}
+
+h2 {
+  margin-top: 0;
+  color: #16213e;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 15px;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+}
+
+.branch-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #edf2f7;
+}
+
+.branch-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #edf2f7;
+  transition: background-color 0.2s ease;
+}
+
+.branch-list li:last-child {
+  border-bottom: none;
+}
+
+.branch-list li:hover {
+  background-color: #f8fafc;
+}
+
+.current-branch {
+  background-color: #ebf5ff;
+  position: relative;
+}
+
+.current-branch:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #3a86ff;
+}
+
+.branch-info {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 18px;
+}
+
+.branch-info:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3a86ff;
+}
+
+.branch-name {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.commit-count {
+  margin-left: 10px;
+  background-color: #ebf5ff;
+  color: #3a86ff;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.arrow-up {
+  margin-right: 3px;
+  font-size: 14px;
+}
+
+.current-indicator {
+  color: #3a86ff;
+  font-weight: 600;
+  margin-left: 10px;
+  background-color: rgba(58, 134, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.branch-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.checkout-button, .delete-button {
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.checkout-button {
+  background-color: #f8f9fa;
+  color: #3a86ff;
+  border: 1px solid rgba(58, 134, 255, 0.2);
+}
+
+.checkout-button:hover {
+  background-color: #ebf5ff;
+  color: #3a86ff;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.checkout-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+}
+
+.delete-button {
+  background-color: #f8f9fa;
+  color: #e63946;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.delete-button:hover {
+  background-color: #fff5f5;
+  color: #e63946;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.no-branches, .no-repo {
+  text-align: center;
+  padding: 40px 20px;
+  color: #5f6c7b;
+  font-size: 15px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #d1dce5;
+}
