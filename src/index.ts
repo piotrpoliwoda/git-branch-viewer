@@ -26,9 +26,20 @@ const createWindow = (): void => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Register a global shortcut
-  globalShortcut.register('CommandOrControl+Option+I', () => {
-    mainWindow.webContents.openDevTools();
-  });
+  // only in development mode, not when built
+  if (process.env.NODE_ENV === 'development') { 
+
+    // toggle tools open and close
+    let toolsOpen = false;
+    globalShortcut.register('CommandOrControl+Option+I', () => {
+      if (toolsOpen) {
+        mainWindow.webContents.closeDevTools();
+      } else {
+        mainWindow.webContents.openDevTools();
+      }
+      toolsOpen = !toolsOpen;
+    });
+  }
 };
 
 // This method will be called when Electron has finished
