@@ -441,3 +441,39 @@ h2 {
   border-radius: 8px;
   border: 1px dashed #d1dce5;
 }
+
+.branches-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+
+.branches-header h2 {
+  margin: 0;
+}
+
+.search-container {
+  width: 30%;
+  margin-bottom: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.branch-search {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8fafc;
+}
+
+.branch-search:focus {
+  outline: none;
+  border-color: #3a86ff;
+  box-shadow: 0 0 0 1px #3a86ff;
+}

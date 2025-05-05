@@ -1,17 +1,19 @@
 {
   "name": "branchey",
   "productName": "Branchey",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tool to keep your git branches clean",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
+    "test": "npm run lint",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "electron-forge make",
+    "build": "node scripts/upgradePatchVersion.js && electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "icon": "makeicns -in ./src/assets/git-branch-viewer-launcher.png -out ./src/assets/git-branch-viewer-launcher.icns"
+    "icon": "makeicns -in ./src/assets/git-branch-viewer-launcher.png -out ./src/assets/git-branch-viewer-launcher.icns",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": {
@@ -22,10 +24,10 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.8.0",
     "@electron-forge/maker-deb": "^7.8.0",
+    "@electron-forge/maker-dmg": "^7.8.0",
     "@electron-forge/maker-rpm": "^7.8.0",
     "@electron-forge/maker-squirrel": "^7.8.0",
     "@electron-forge/maker-zip": "^7.8.0",
-    "@electron-forge/maker-dmg": "^7.8.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.8.0",
     "@electron-forge/plugin-fuses": "^7.8.0",
     "@electron-forge/plugin-webpack": "^7.8.0",
@@ -40,6 +42,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.31.0",
     "fork-ts-checker-webpack-plugin": "^7.3.0",
+    "husky": "^9.1.7",
     "node-loader": "^2.1.0",
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.2",

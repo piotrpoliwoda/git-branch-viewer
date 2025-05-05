@@ -15,6 +15,11 @@ const App: React.FC = () => {
   const [errorTrace, setErrorTrace] = useState<string | null>(null);
   const [repoHistory, setRepoHistory] = useState<string[]>([]);
   const [fetchMessage, setFetchMessage] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const filteredBranches = branches.filter(branch => 
+    branch.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Load repository history and most recent repo on mount
   useEffect(() => {
@@ -275,9 +280,20 @@ const App: React.FC = () => {
         <div className="branches-container">
           {branches.length > 0 ? (
             <>
-              <h2>Git Branches</h2>
+               <div className="branches-header">
+                <h2>Git Branches</h2>
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Search branches..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="branch-search"
+                  />
+                </div>
+              </div>
               <ul className="branch-list">
-                {branches.map((branch) => (
+                {filteredBranches.map((branch) => (
                   <li key={branch.name} className={branch.name === currentBranch ? 'current-branch' : ''}>
                     <div className="branch-info">
                       <span className="branch-name">{branch.name}</span>
