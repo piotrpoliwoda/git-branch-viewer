@@ -1,8 +1,8 @@
 {
-  "name": "git-branch-viewer",
-  "productName": "git-branch-viewer",
+  "name": "branchey",
+  "productName": "Branchey",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A tool to keep your git branches clean",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -10,12 +10,13 @@
     "make": "electron-forge make",
     "build": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "icon": "makeicns -in ./src/assets/git-branch-viewer-launcher.png -out ./src/assets/git-branch-viewer-launcher.icns"
   },
   "keywords": [],
   "author": {
     "name": "Peter Poliwoda",
-    "email": "piotr.poliwoda@fresha.com"
+    "email": "contact@peterpoliwoda.me"
   },
   "license": "MIT",
   "devDependencies": {
