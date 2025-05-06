@@ -1,6 +1,4 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
-import { MakerZIP } from '@electron-forge/maker-zip';
-
 import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
 import { WebpackPlugin } from '@electron-forge/plugin-webpack';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
@@ -20,7 +18,7 @@ const config: ForgeConfig = {
       name: '@electron-forge/maker-dmg',
       config: {
         icon: './src/assets/git-branch-viewer-launcher.icns',
-      }
+      },
     },
   ],
   plugins: [

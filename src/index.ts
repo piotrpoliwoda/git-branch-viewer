@@ -27,8 +27,7 @@ const createWindow = (): void => {
 
   // Register a global shortcut
   // only in development mode, not when built
-  if (process.env.NODE_ENV === 'development') { 
-
+  if (process.env.NODE_ENV === 'development') {
     // toggle tools open and close
     let toolsOpen = false;
     globalShortcut.register('CommandOrControl+Option+I', () => {
@@ -73,7 +72,7 @@ const execAsync = promisify(exec);
 // Handle folder selection dialog
 ipcMain.handle('dialog:openDirectory', async () => {
   const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['openDirectory']
+    properties: ['openDirectory'],
   });
   if (canceled) {
     return null;
@@ -87,60 +86,69 @@ ipcMain.handle('git:getBranches', async (_, repoPath) => {
   try {
     // Get all branches
     const { stdout: branchesOutput } = await execAsync('git branch', { cwd: repoPath });
-    
+
     // Get current branch
-    const { stdout: currentBranchOutput } = await execAsync('git branch --show-current', { cwd: repoPath });
-    
+    const { stdout: currentBranchOutput } = await execAsync('git branch --show-current', {
+      cwd: repoPath,
+    });
+
     // Parse branches output
     const branchNames = branchesOutput
       .split('\n')
       .map(branch => branch.trim())
       .filter(branch => branch.length > 0)
-      .map(branch => branch.startsWith('* ') ? branch.substring(2) : branch);
-    
+      .map(branch => (branch.startsWith('* ') ? branch.substring(2) : branch));
+
     const currentBranch = currentBranchOutput.trim();
-    
+
     // Get commit counts for each branch
-    const branchesWithCommits = await Promise.all(branchNames.map(async (branchName) => {
-      try {
-        // Count commits on this branch that aren't on main/master
-        // First, determine if main or master is the default branch
-        let defaultBranch = 'main';
+    const branchesWithCommits = await Promise.all(
+      branchNames.map(async branchName => {
         try {
-          await execAsync('git show-ref --verify --quiet refs/heads/main', { cwd: repoPath });
-        } catch (err) {
-          defaultBranch = 'master'; // Fallback to master if main doesn't exist
-        }
-        
-        // Get commit count
-        let commitCount = 0;
-        try {
-          // If we're on the default branch, count all commits
-          if (branchName === defaultBranch) {
-            const { stdout } = await execAsync(`git rev-list --count ${branchName}`, { cwd: repoPath });
-            commitCount = parseInt(stdout.trim(), 10);
-          } else {
-            // Count commits on this branch that aren't on the default branch
-            const { stdout } = await execAsync(`git rev-list --count ${defaultBranch}..${branchName}`, { cwd: repoPath });
-            commitCount = parseInt(stdout.trim(), 10);
+          // Count commits on this branch that aren't on main/master
+          // First, determine if main or master is the default branch
+          let defaultBranch = 'main';
+          try {
+            await execAsync('git show-ref --verify --quiet refs/heads/main', { cwd: repoPath });
+          } catch (err) {
+            defaultBranch = 'master'; // Fallback to master if main doesn't exist
           }
+
+          // Get commit count
+          let commitCount = 0;
+          try {
+            // If we're on the default branch, count all commits
+            if (branchName === defaultBranch) {
+              const { stdout } = await execAsync(`git rev-list --count ${branchName}`, {
+                cwd: repoPath,
+              });
+              commitCount = parseInt(stdout.trim(), 10);
+            } else {
+              // Count commits on this branch that aren't on the default branch
+              const { stdout } = await execAsync(
+                `git rev-list --count ${defaultBranch}..${branchName}`,
+                { cwd: repoPath },
+              );
+              commitCount = parseInt(stdout.trim(), 10);
+            }
+          } catch (err) {
+            console.error(`Error getting commit count for ${branchName}:`, err);
+          }
+
+          return {
+            name: branchName,
+            commitCount,
+          };
         } catch (err) {
-          console.error(`Error getting commit count for ${branchName}:`, err);
+          console.error(`Error processing branch ${branchName}:`, err);
+          return {
+            name: branchName,
+            commitCount: 0,
+          };
         }
-        
-        return {
-          name: branchName,
-          commitCount
-        };
-      } catch (err) {
-        console.error(`Error processing branch ${branchName}:`, err);
-        return {
-          name: branchName,
-          commitCount: 0
-        };
-      }
-    }));
-    
+      }),
+    );
+
     return { branches: branchesWithCommits, currentBranch };
   } catch (error) {
     console.error('Error getting branches:', error);
@@ -167,10 +175,10 @@ ipcMain.handle('git:checkoutBranch', async (_, repoPath, branchName) => {
   } catch (error) {
     console.error('Error checking out branch:', error);
     // Return the error message for display in the UI
-    return { 
-      success: false, 
+    return {
+      success: false,
       errorMessage: error.message || 'Unknown error occurred',
-      errorTrace: error.stderr || ''
+      errorTrace: error.stderr || '',
     };
   }
 });
@@ -179,17 +187,17 @@ ipcMain.handle('git:checkoutBranch', async (_, repoPath, branchName) => {
 ipcMain.handle('git:fetchOrigin', async (_, repoPath) => {
   try {
     const { stdout } = await execAsync('git fetch origin', { cwd: repoPath });
-    return { 
+    return {
       success: true,
-      output: stdout || 'Fetch completed successfully.'
+      output: stdout || 'Fetch completed successfully.',
     };
   } catch (error) {
     console.error('Error fetching from origin:', error);
     // Return the error message for display in the UI
-    return { 
-      success: false, 
+    return {
+      success: false,
       errorMessage: error.message || 'Unknown error occurred',
-      errorTrace: error.stderr || ''
+      errorTrace: error.stderr || '',
     };
   }
 });

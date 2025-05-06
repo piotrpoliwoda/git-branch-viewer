@@ -1,5 +1,6 @@
 body {
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
@@ -150,8 +151,14 @@ h3 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .select-button {
@@ -263,8 +270,12 @@ h3 {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .branches-container {
@@ -385,7 +396,8 @@ h2 {
   align-items: center;
 }
 
-.checkout-button, .delete-button {
+.checkout-button,
+.delete-button {
   border-radius: 6px;
   width: 30px;
   height: 30px;
@@ -432,7 +444,8 @@ h2 {
   transform: scale(1.1);
 }
 
-.no-branches, .no-repo {
+.no-branches,
+.no-repo {
   text-align: center;
   padding: 40px 20px;
   color: #5f6c7b;

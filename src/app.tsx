@@ -17,8 +17,8 @@ const App: React.FC = () => {
   const [fetchMessage, setFetchMessage] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const filteredBranches = branches.filter(branch => 
-    branch.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBranches = branches.filter(branch =>
+    branch.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // Load repository history and most recent repo on mount
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         if (savedHistory) {
           const history = JSON.parse(savedHistory) as string[];
           setRepoHistory(history);
-          
+
           // Load the most recent repository if available
           if (history.length > 0) {
             const mostRecentRepo = history[0];
@@ -41,22 +41,22 @@ const App: React.FC = () => {
         console.error('Error loading repository history:', err);
       }
     };
-    
+
     loadSavedRepoHistory();
   }, []);
-  
+
   // Save repository to history
   const saveRepoToHistory = (path: string) => {
     // Create a new history array with the current path at the beginning
     const updatedHistory = [path];
-    
+
     // Add previous paths, excluding the current one if it already exists
     repoHistory.forEach(repo => {
       if (repo !== path && updatedHistory.length < 3) {
         updatedHistory.push(repo);
       }
     });
-    
+
     // Update state and save to localStorage
     setRepoHistory(updatedHistory);
     localStorage.setItem(REPO_HISTORY_KEY, JSON.stringify(updatedHistory));
@@ -76,11 +76,11 @@ const App: React.FC = () => {
       console.error(err);
     }
   };
-  
+
   // Function to select a repository from history
   const handleSelectRepoFromHistory = async (path: string) => {
     if (path === repoPath) return; // Skip if already selected
-    
+
     setRepoPath(path);
     saveRepoToHistory(path);
     await fetchBranches(path);
@@ -106,7 +106,7 @@ const App: React.FC = () => {
   // Function to delete a branch
   const handleDeleteBranch = async (branchName: string) => {
     if (!repoPath) return;
-    
+
     // Don't allow deleting the current branch
     if (branchName === currentBranch) {
       setError(`Cannot delete the currently checked out branch: ${branchName}`);
@@ -117,7 +117,7 @@ const App: React.FC = () => {
       setError(`Cannot delete the main branch: ${branchName}`);
       return;
     }
-    
+
     setIsLoading(true);
     try {
       const success = await window.electronAPI.deleteBranch(repoPath, branchName);
@@ -138,16 +138,16 @@ const App: React.FC = () => {
   // Function to checkout a branch
   const handleCheckoutBranch = async (branchName: string) => {
     if (!repoPath) return;
-    
+
     // Skip if already on this branch
     if (branchName === currentBranch) {
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
     setErrorTrace(null);
-    
+
     try {
       const result = await window.electronAPI.checkoutBranch(repoPath, branchName);
       if (result.success) {
@@ -170,12 +170,12 @@ const App: React.FC = () => {
   // Function to fetch from origin
   const handleFetchOrigin = async () => {
     if (!repoPath) return;
-    
+
     setIsFetching(true);
     setError(null);
     setErrorTrace(null);
     setFetchMessage(null);
-    
+
     try {
       const result = await window.electronAPI.fetchOrigin(repoPath);
       if (result.success) {
@@ -193,7 +193,7 @@ const App: React.FC = () => {
       console.error(err);
     } finally {
       setIsFetching(false);
-      
+
       // Auto-hide fetch message after 5 seconds
       setTimeout(() => {
         setFetchMessage(null);
@@ -206,7 +206,7 @@ const App: React.FC = () => {
       <header>
         <div className="header-top">
           {repoPath && (
-            <button 
+            <button
               onClick={handleFetchOrigin}
               disabled={isLoading || isFetching}
               className={`fetch-button ${isFetching ? 'fetching' : ''}`}
@@ -216,13 +216,9 @@ const App: React.FC = () => {
             </button>
           )}
         </div>
-        
-        {fetchMessage && (
-          <div className="fetch-message">
-            {fetchMessage}
-          </div>
-        )}
-        
+
+        {fetchMessage && <div className="fetch-message">{fetchMessage}</div>}
+
         {repoHistory.length > 0 && (
           <div className="repo-history">
             <h3>Recent Repositories</h3>
@@ -241,15 +237,11 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
-        
-        <button 
-          onClick={handleSelectFolder}
-          disabled={isLoading}
-          className="select-button"
-        >
+
+        <button onClick={handleSelectFolder} disabled={isLoading} className="select-button">
           Select Repository
         </button>
-        
+
         {repoPath && (
           <div className="repo-path">
             <strong>Repository:</strong> {repoPath}
@@ -261,10 +253,15 @@ const App: React.FC = () => {
         <div className="error-container">
           <div className="error-message">
             {error}
-            <button onClick={() => {
-              setError(null);
-              setErrorTrace(null);
-            }} className="close-button">×</button>
+            <button
+              onClick={() => {
+                setError(null);
+                setErrorTrace(null);
+              }}
+              className="close-button"
+            >
+              ×
+            </button>
           </div>
           {errorTrace && (
             <div className="error-trace">
@@ -280,21 +277,24 @@ const App: React.FC = () => {
         <div className="branches-container">
           {branches.length > 0 ? (
             <>
-               <div className="branches-header">
+              <div className="branches-header">
                 <h2>Git Branches</h2>
                 <div className="search-container">
                   <input
                     type="text"
                     placeholder="Search branches..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                     className="branch-search"
                   />
                 </div>
               </div>
               <ul className="branch-list">
-                {filteredBranches.map((branch) => (
-                  <li key={branch.name} className={branch.name === currentBranch ? 'current-branch' : ''}>
+                {filteredBranches.map(branch => (
+                  <li
+                    key={branch.name}
+                    className={branch.name === currentBranch ? 'current-branch' : ''}
+                  >
                     <div className="branch-info">
                       <span className="branch-name">{branch.name}</span>
                       {branch.commitCount > 0 && (
@@ -303,22 +303,28 @@ const App: React.FC = () => {
                           {branch.commitCount}
                         </span>
                       )}
-                      {branch.name === currentBranch && <span className="current-indicator">current</span>}
+                      {branch.name === currentBranch && (
+                        <span className="current-indicator">current</span>
+                      )}
                     </div>
                     <div className="branch-actions">
                       {branch.name !== currentBranch && (
                         <>
-                          <button 
+                          <button
                             onClick={() => handleCheckoutBranch(branch.name)}
                             className="checkout-button"
                             title={`Checkout branch ${branch.name}`}
                           >
-                            <svg className="checkout-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <svg
+                              className="checkout-icon"
+                              viewBox="0 0 16 16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
                               <path d="M14,4c0-1.103-0.897-2-2-2s-2,0.897-2,2c0,0.737,0.405,1.375,1,1.722V6c0,0.551-0.448,1-1,1H7.5C6.575,7,5.716,7.282,5,7.762v-3.04C5.595,4.375,6,3.737,6,3c0-1.103-0.897-2-2-2S2,1.897,2,3c0,0.737,0.405,1.375,1,1.722v6.556C2.405,11.625,2,12.263,2,13c0,1.103,0.897,2,2,2s2-0.897,2-2c0-0.728-0.395-1.36-0.979-1.71C5.13,10.011,6.194,9,7.5,9H10c1.654,0,3-1.346,3-3V5.722C13.595,5.375,14,4.737,14,4z M4,2c0.551,0,1,0.449,1,1S4.551,4,4,4S3,3.551,3,3S3.449,2,4,2z M4,14c-0.551,0-1-0.448-1-1s0.449-1,1-1s1,0.448,1,1S4.551,14,4,14z M12,5c-0.552,0-1-0.449-1-1s0.448-1,1-1s1,0.449,1,1S12.552,5,12,5z" />
                             </svg>
                           </button>
                           {branch.name !== 'main' && branch.name !== 'master' && (
-                            <button 
+                            <button
                               onClick={() => handleDeleteBranch(branch.name)}
                               className="delete-button"
                               title={`Delete branch ${branch.name}`}
