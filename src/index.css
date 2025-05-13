@@ -476,6 +476,13 @@ h2 {
   padding-bottom: 20px;
 }
 
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .branch-search {
   width: 100%;
   padding: 8px;
@@ -489,4 +496,28 @@ h2 {
   outline: none;
   border-color: #3a86ff;
   box-shadow: 0 0 0 1px #3a86ff;
+}
+
+.search-clear-button {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #5f6c7b;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.search-clear-button:hover {
+  background-color: rgba(95, 108, 123, 0.1);
+  color: #3a86ff;
+  transform: scale(1.1);
 }

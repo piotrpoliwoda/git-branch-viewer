@@ -280,13 +280,24 @@ const App: React.FC = () => {
               <div className="branches-header">
                 <h2>Git Branches</h2>
                 <div className="search-container">
-                  <input
-                    type="text"
-                    placeholder="Search branches..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="branch-search"
-                  />
+                  <div className="search-input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Search branches..."
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                      className="branch-search"
+                    />
+                    {searchTerm && (
+                      <button
+                        className="search-clear-button"
+                        onClick={() => setSearchTerm('')}
+                        title="Clear search"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
               <ul className="branch-list">
