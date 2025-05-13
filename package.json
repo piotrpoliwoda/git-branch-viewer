@@ -9,7 +9,7 @@
     "test": "npm run lint",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "node scripts/upgradePatchVersion.js && electron-forge make && open ./out/make",
+    "build": "cross-env NODE_ENV=production node scripts/upgradePatchVersion.js && electron-forge make && open ./out/make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
     "icon": "makeicns -in ./src/assets/git-branch-viewer-launcher.png -out ./src/assets/git-branch-viewer-launcher.icns",
@@ -37,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.11.0",
     "electron": "35.2.1",
     "eslint": "^8.57.1",
@@ -53,10 +54,21 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write"
+  },
+  "build": {
+    "appId": "me.peterpoliwoda.git-branch-viewer",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "peterpoliwoda",
+        "repo": "git-branch-viewer"
+      }
+    ]
   }
 }
