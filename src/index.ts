@@ -70,13 +70,20 @@ app.on('activate', () => {
 const execAsync = promisify(exec);
 
 // Handle folder selection dialog
+let isOpeningDirectory = false;
 ipcMain.handle('dialog:openDirectory', async () => {
+  if (isOpeningDirectory) {
+    return null;
+  }
+  isOpeningDirectory = true;
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openDirectory'],
   });
   if (canceled) {
+    isOpeningDirectory = false;
     return null;
   } else {
+    isOpeningDirectory = false;
     return filePaths[0];
   }
 });

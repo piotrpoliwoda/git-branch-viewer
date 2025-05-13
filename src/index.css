@@ -490,6 +490,7 @@ h2 {
   border-radius: 8px;
   font-size: 14px;
   background-color: #f8fafc;
+  padding-right: 26px;
 }
 
 .branch-search:focus {
@@ -514,10 +515,10 @@ h2 {
   height: 20px;
   border-radius: 50%;
   transition: all 0.2s ease;
+  transform: scale(1.1);
 }
 
 .search-clear-button:hover {
   background-color: rgba(95, 108, 123, 0.1);
   color: #3a86ff;
-  transform: scale(1.1);
 }
