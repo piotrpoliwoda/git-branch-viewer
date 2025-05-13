@@ -1,7 +1,7 @@
 {
   "name": "branchey",
   "productName": "Branchey",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A tool to keep your git branches clean",
   "main": ".webpack/main",
   "scripts": {
@@ -9,7 +9,7 @@
     "test": "npm run lint",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "node scripts/upgradePatchVersion.js && electron-forge make",
+    "build": "node scripts/upgradePatchVersion.js && electron-forge make && open ./out/make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
     "icon": "makeicns -in ./src/assets/git-branch-viewer-launcher.png -out ./src/assets/git-branch-viewer-launcher.icns",
