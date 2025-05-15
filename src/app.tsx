@@ -158,6 +158,8 @@ const App: React.FC = () => {
     try {
       const success = await window.electronAPI.deleteBranch(repoPath, branchName);
       if (success) {
+        // remove branch from active branches
+        setActiveBranches(prev => prev.filter(branch => branch !== branchName));
         // Refresh the branch list after successful deletion
         await fetchBranches(repoPath);
       } else {
