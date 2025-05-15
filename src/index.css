@@ -1,6 +1,13 @@
 body {
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+  font-family:
+    'SF Pro Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
@@ -397,6 +404,7 @@ h2 {
 }
 
 .checkout-button,
+.toggle-branch-button,
 .delete-button {
   border-radius: 6px;
   width: 30px;
@@ -429,6 +437,26 @@ h2 {
   height: 16px;
   display: block;
   fill: currentColor;
+}
+
+.toggle-branch-button {
+  background-color: #f8f9fa;
+  color: rgb(119, 92, 125);
+  border: 1px solid rgba(116, 63, 128, 0.27);
+}
+
+.toggle-branch-button:hover {
+  background-color: #ebf5ff;
+  color: rgb(119, 92, 125);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.toggle-branch-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: #3a86ff;
 }
 
 .delete-button {

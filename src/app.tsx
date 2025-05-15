@@ -4,6 +4,7 @@ import './index.css';
 
 // Storage keys
 const REPO_HISTORY_KEY = 'gitBranchViewer_repoHistory';
+const ACTIVE_BRANCHES_HISTORY_KEY = 'gitBranchViewer_activeBranchesHistory';
 
 const App: React.FC = () => {
   const [repoPath, setRepoPath] = useState<string | null>(null);
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const [repoHistory, setRepoHistory] = useState<string[]>([]);
   const [fetchMessage, setFetchMessage] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [activeBranches, setActiveBranches] = useState<string[]>([]);
 
   const filteredBranches = branches.filter(branch =>
     branch.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -45,6 +47,23 @@ const App: React.FC = () => {
     loadSavedRepoHistory();
   }, []);
 
+  // Load active branches on mount
+  useEffect(() => {
+    const loadActiveBranches = () => {
+      try {
+        const savedHistory = localStorage.getItem(ACTIVE_BRANCHES_HISTORY_KEY);
+        if (savedHistory) {
+          const history = JSON.parse(savedHistory) as string[];
+          setActiveBranches(history);
+        }
+      } catch (err) {
+        console.error('Error loading active branches history:', err);
+      }
+    };
+
+    loadActiveBranches();
+  }, []);
+
   // Save repository to history
   const saveRepoToHistory = (path: string) => {
     // Create a new history array with the current path at the beginning
@@ -60,6 +79,23 @@ const App: React.FC = () => {
     // Update state and save to localStorage
     setRepoHistory(updatedHistory);
     localStorage.setItem(REPO_HISTORY_KEY, JSON.stringify(updatedHistory));
+  };
+
+  // Save active branches to history
+  const toggleActiveBranch = (branchName: string) => {
+    // Create a new history array with the current path at the beginning
+    const updatedActiveBranches = [...activeBranches];
+
+    // Toggle branch
+    if (updatedActiveBranches.includes(branchName)) {
+      updatedActiveBranches.splice(updatedActiveBranches.indexOf(branchName), 1);
+    } else {
+      updatedActiveBranches.push(branchName);
+    }
+
+    // Update state and save to localStorage
+    setActiveBranches(updatedActiveBranches);
+    localStorage.setItem(ACTIVE_BRANCHES_HISTORY_KEY, JSON.stringify(updatedActiveBranches));
   };
 
   // Function to select a Git repository folder
@@ -306,8 +342,10 @@ const App: React.FC = () => {
                     key={branch.name}
                     className={branch.name === currentBranch ? 'current-branch' : ''}
                   >
-                    <div className="branch-info">
-                      <span className="branch-name">{branch.name}</span>
+                    <div className={activeBranches.includes(branch.name) ? 'branch-info' : ''}>
+                      <span className="branch-name" title={branch.name}>
+                        {branch.name}
+                      </span>
                       {branch.commitCount > 0 && (
                         <span className="commit-count">
                           <span className="arrow-up">↑</span>
@@ -319,6 +357,25 @@ const App: React.FC = () => {
                       )}
                     </div>
                     <div className="branch-actions">
+                      {branch.name !== 'main' && branch.name !== 'master' && (
+                        <button
+                          onClick={() => toggleActiveBranch(branch.name)}
+                          className="toggle-branch-button"
+                          title={`Toggle branch ${branch.name}`}
+                        >
+                          <svg
+                            className="toggle-branch-icon"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M8 9.263l4 3.334V2H4v10.597l4-3.334zm0 2.604l4.36 3.895a1 1 0 0 0 1.64-.769V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12.993a1 1 0 0 0 1.64.769L8 11.867z"
+                            />
+                          </svg>
+                        </button>
+                      )}
                       {branch.name !== currentBranch && (
                         <>
                           <button
