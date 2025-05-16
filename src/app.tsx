@@ -343,9 +343,13 @@ const App: React.FC = () => {
                   <li
                     key={branch.name}
                     className={branch.name === currentBranch ? 'current-branch' : ''}
+                    onDoubleClick={() => toggleActiveBranch(branch.name)}
                   >
                     <div className={activeBranches.includes(branch.name) ? 'branch-info' : ''}>
-                      <span className="branch-name" title={branch.name}>
+                      <span 
+                        className="branch-name" 
+                        title={branch.name}
+                      >
                         {branch.name}
                       </span>
                       {branch.commitCount > 0 && (
@@ -359,25 +363,6 @@ const App: React.FC = () => {
                       )}
                     </div>
                     <div className="branch-actions">
-                      {branch.name !== 'main' && branch.name !== 'master' && (
-                        <button
-                          onClick={() => toggleActiveBranch(branch.name)}
-                          className="toggle-branch-button"
-                          title={`Toggle branch ${branch.name}`}
-                        >
-                          <svg
-                            className="toggle-branch-icon"
-                            viewBox="0 0 16 16"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M8 9.263l4 3.334V2H4v10.597l4-3.334zm0 2.604l4.36 3.895a1 1 0 0 0 1.64-.769V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12.993a1 1 0 0 0 1.64.769L8 11.867z"
-                            />
-                          </svg>
-                        </button>
-                      )}
                       {branch.name !== currentBranch && (
                         <>
                           <button
