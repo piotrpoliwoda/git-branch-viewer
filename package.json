@@ -1,7 +1,7 @@
 {
   "name": "branchey",
   "productName": "Branchey",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A tool to keep your git branches clean",
   "main": ".webpack/main",
   "scripts": {
